@@ -1960,6 +1960,349 @@ function maxProductSubarray(nums) {
 // const nums = [2, 3, -2, 4];
 // console.log(maxProductSubarray(nums)); // Output: 6
 
+// 41. Write a function to find the longest increasing subsequence in an array.
+
+// 1st way
+
+function longestIncreasingSubsequence(nums) {
+    if (nums.length === 0) return 0;
+
+    const dp = new Array(nums.length).fill(1);
+
+    for (let i = 1; i < nums.length; i++) {
+        for (let j = 0; j < i; j++) {
+            if (nums[i] > nums[j]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1);
+            }
+        }
+    }
+
+    return Math.max(...dp);
+}
+
+// const nums = [10, 9, 2, 5, 3, 7, 101, 18];
+// console.log(longestIncreasingSubsequence(nums)); // Output: 4 (for [2, 3, 7, 101])
+
+
+// 2nd way
+
+function longestIncreasingSubsequence(nums) {
+    const tails = [];
+
+    for (const num of nums) {
+        let left = 0;
+        let right = tails.length;
+
+        while (left < right) {
+            const mid = Math.floor((left + right) / 2);
+            if (tails[mid] < num) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        tails[left] = num;
+    }
+
+    return tails.length;
+}
+
+// const nums = [10, 9, 2, 5, 3, 7, 101, 18];
+// console.log(longestIncreasingSubsequence(nums)); // Output: 4 (for [2, 3, 7, 101])
+
+
+// 42. Write a function to find the longest common subsequence between two arrays.
+
+// 1st way
+
+function longestCommonSubsequence(nums1, nums2) {
+    const m = nums1.length;
+    const n = nums2.length;
+    const dp = [];
+
+    for (let i = 0; i <= m; i++) {
+        dp[i] = [];
+        for (let j = 0; j <= n; j++) {
+            if (i === 0 || j === 0) {
+                dp[i][j] = 0;
+            } else if (nums1[i - 1] === nums2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+
+    let i = m;
+    let j = n;
+    const result = [];
+
+    while (i > 0 && j > 0) {
+        if (nums1[i - 1] === nums2[j - 1]) {
+            result.unshift(nums1[i - 1]);
+            i--;
+            j--;
+        } else if (dp[i - 1][j] > dp[i][j - 1]) {
+            i--;
+        } else {
+            j--;
+        }
+    }
+
+    return result;
+}
+
+// const nums1 = [1, 2, 3, 4, 5];
+// const nums2 = [3, 4, 5, 6, 7];
+// console.log(longestCommonSubsequence(nums1, nums2)); // Output: [3, 4, 5]
+
+
+// 43. Write a function to find the peak element in an array.
+
+function findPeakElement(nums) {
+    let left = 0;
+    let right = nums.length - 1;
+
+    while (left < right) {
+        const mid = Math.floor((left + right) / 2);
+        if (nums[mid] < nums[mid + 1]) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+
+    return left;
+}
+
+// const nums = [1, 2, 3, 1];
+// console.log(findPeakElement(nums)); // Output: 2
+
+
+// 44. Write a function to find the majority element in an array.
+
+function majorityElement(nums) {
+    let candidate;
+    let count = 0;
+
+    for (const num of nums) {
+        if (count === 0) {
+            candidate = num;
+        }
+        count += num === candidate ? 1 : -1;
+    }
+
+    return candidate;
+}
+
+// const nums = [2, 2, 1, 1, 1, 2, 2];
+// console.log(majorityElement(nums)); // Output: 2
+
+
+// 45. Write a function to find the missing number in a sorted array of consecutive integers.
+
+
+function findMissingNumber(nums) {
+    const n = nums.length;
+    const totalSum = (n + 1) * (nums[0] + nums[n - 1]) / 2;
+    let currentSum = nums.reduce((acc, num) => acc + num, 0);
+
+    return totalSum - currentSum;
+}
+
+// const nums = [1, 2, 3, 5, 6, 7, 8];
+// console.log(findMissingNumber(nums)); // Output: 4
+
+
+
+// 46. Write a function to find the missing numbers in an unsorted array of consecutive integers.
+
+function findMissingNumbers(nums) {
+    const maxNum = Math.max(...nums);
+    const minNum = Math.min(...nums);
+    const missingNumbers = [];
+
+    for (let i = minNum; i <= maxNum; i++) {
+        if (!nums.includes(i)) {
+            missingNumbers.push(i);
+        }
+    }
+
+    return missingNumbers;
+}
+
+// const nums = [6, 4, 8, 1, 3, 10];
+// console.log(findMissingNumbers(nums)); // Output: [2, 5, 7, 9]
+
+
+// 47. Write a function to find the leaders in an array (elements that are greater than all elements to their right).
+
+function findLeaders(nums) {
+    const leaders = [];
+    let maxRight = nums[nums.length - 1];
+    leaders.push(maxRight);
+
+    for (let i = nums.length - 2; i >= 0; i--) {
+        if (nums[i] > maxRight) {
+            maxRight = nums[i];
+            leaders.unshift(maxRight);
+        }
+    }
+
+    return leaders;
+}
+
+// const nums = [16, 17, 4, 3, 5, 2];
+// console.log(findLeaders(nums)); // Output: [17, 5, 2]
+
+
+// 48. Write a function to find the equilibrium index of an array.
+
+function findEquilibriumIndex(nums) {
+    const n = nums.length;
+    let totalSum = 0;
+    let leftSum = 0;
+
+    // Calculate the total sum of the array
+    for (let i = 0; i < n; i++) {
+        totalSum += nums[i];
+    }
+
+    // Iterate through the array to find the equilibrium index
+    for (let i = 0; i < n; i++) {
+        totalSum -= nums[i]; // Subtract the current element from the total sum
+        if (leftSum === totalSum) {
+            return i; // Found equilibrium index
+        }
+        leftSum += nums[i]; // Add the current element to the left sum
+    }
+
+    return -1; // No equilibrium index found
+}
+
+// const nums = [-7, 1, 5, 2, -4, 3, 0];
+// console.log(findEquilibriumIndex(nums)); // Output: 3
+
+
+// 49. Write a function to find the maximum length of contiguous subarray with equal number of 0s and 1s.
+
+function findMaxLength(nums) {
+    const map = new Map(); // Map to store the running sum and its first occurrence index
+    let maxLength = 0;
+    let count = 0;
+
+    // Initialize the map with the initial running sum and its index
+    map.set(0, -1);
+
+    // Iterate through the array to calculate the running sum
+    for (let i = 0; i < nums.length; i++) {
+        count += nums[i] === 0 ? -1 : 1; // Increment count if element is 1, decrement if 0
+
+        // Check if the running sum is already in the map
+        if (map.has(count)) {
+            maxLength = Math.max(maxLength, i - map.get(count)); // Update maxLength
+        } else {
+            map.set(count, i); // Store the running sum and its index in the map
+        }
+    }
+
+    return maxLength;
+}
+
+// const nums = [0, 1, 0, 1, 1, 0, 0, 1];
+// console.log(findMaxLength(nums)); // Output: 6
+
+
+
+// 50. Write a function to find the maximum length of contiguous subarray with equal number of even and odd elements.
+
+
+function findMaxLength(nums) {
+    const map = new Map(); // Map to store the running difference and its first occurrence index
+    let maxLength = 0;
+    let count = 0;
+
+    // Initialize the map with the initial running difference and its index
+    map.set(0, -1);
+
+    // Iterate through the array to calculate the running difference
+    for (let i = 0; i < nums.length; i++) {
+        count += nums[i] % 2 === 0 ? 1 : -1; // Increment count if element is even, decrement if odd
+
+        // Check if the running difference is already in the map
+        if (map.has(count)) {
+            maxLength = Math.max(maxLength, i - map.get(count)); // Update maxLength
+        } else {
+            map.set(count, i); // Store the running difference and its index in the map
+        }
+    }
+
+    return maxLength;
+}
+
+const nums = [1, 2, 3, 4, 5, 6, 7, 8];
+console.log(findMaxLength(nums)); // Output: 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

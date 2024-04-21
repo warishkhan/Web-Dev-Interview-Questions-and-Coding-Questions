@@ -1596,6 +1596,424 @@ function longestSubstringWithoutRepeating(str) {
 // console.log(longestSubstringWithoutRepeating(input)); // Output: 3 (for "abc")
 
 
+// 41. Write a function to find the length of the last word in a string.
+
+function lengthOfLastWord(s) {
+    // Trim the string to remove leading and trailing spaces
+    s = s.trim();
+
+    let length = 0;
+
+    // Iterate backwards through the string
+    for (let i = s.length - 1; i >= 0; i--) {
+        // If a non-space character is encountered, start counting the length
+        if (s[i] !== ' ') {
+            length++;
+        } else if (length > 0) {
+            // If a space is encountered after counting a word, break the loop
+            break;
+        }
+    }
+
+    return length;
+}
+
+// const str = "Hello World";
+// console.log(lengthOfLastWord(str)); // Output: 5
+
+
+
+// 42. Write a function to find the number of occurrences of a word in a string.
+
+function countOccurrences(str, word) {
+    // Split the string by spaces to create an array of words
+    const words = str.split(' ');
+
+    let count = 0;
+
+    // Iterate through the array of words
+    for (const w of words) {
+        // If the current word matches the target word, increment the count
+        if (w === word) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+const sentence = "This is a sample sentence with a word repeated multiple times in this sentence.";
+const targetWord = "sentence";
+
+// console.log(countOccurrences(sentence, targetWord)); // Output: 2
+
+
+
+// 43. Write a function to reverse only the vowels in a string.
+
+
+function reverseVowels(str) {
+    const vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+
+    // Convert the string into an array of characters
+    const chars = str.split('');
+
+    // Initialize two pointers, one at the start and one at the end of the string
+    let left = 0;
+    let right = str.length - 1;
+
+    // Continue until the two pointers meet or cross each other
+    while (left < right) {
+        // Move the left pointer to the next vowel
+        while (left < right && !vowels.includes(chars[left])) {
+            left++;
+        }
+
+        // Move the right pointer to the previous vowel
+        while (left < right && !vowels.includes(chars[right])) {
+            right--;
+        }
+
+        // Swap the vowels at the left and right pointers
+        [chars[left], chars[right]] = [chars[right], chars[left]];
+
+        // Move the pointers towards each other
+        left++;
+        right--;
+    }
+
+    // Convert the array of characters back to a string
+    return chars.join('');
+}
+
+// const str = "hello world";
+// console.log(reverseVowels(str)); // Output: "hollo werld"
+
+
+
+// 44. Write a function to reverse only the consonants in a string.
+
+function reverseConsonants(str) {
+    // Helper function to check if a character is a consonant
+    const isConsonant = (char) => {
+        const vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+        return !vowels.includes(char);
+    };
+
+    // Convert the string into an array of characters
+    const chars = str.split('');
+
+    // Initialize two pointers, one at the start and one at the end of the string
+    let left = 0;
+    let right = str.length - 1;
+
+    // Continue until the two pointers meet or cross each other
+    while (left < right) {
+        // Move the left pointer to the next consonant
+        while (left < right && !isConsonant(chars[left])) {
+            left++;
+        }
+
+        // Move the right pointer to the previous consonant
+        while (left < right && !isConsonant(chars[right])) {
+            right--;
+        }
+
+        // Swap the consonants at the left and right pointers
+        [chars[left], chars[right]] = [chars[right], chars[left]];
+
+        // Move the pointers towards each other
+        left++;
+        right--;
+    }
+
+    // Convert the array of characters back to a string
+    return chars.join('');
+}
+
+// const str = "hello world";
+// console.log(reverseConsonants(str)); // Output: "dorlw lelho"
+
+
+// 45. Write a function to find the first unique character in a string.
+
+function firstUniqueChar(str) {
+    // Create a map to store the frequency of each character
+    const charMap = new Map();
+
+    // Iterate through the string to populate the map
+    for (const char of str) {
+        charMap.set(char, (charMap.get(char) || 0) + 1);
+    }
+
+    // Iterate through the string again to find the first unique character
+    for (const char of str) {
+        if (charMap.get(char) === 1) {
+            return char;
+        }
+    }
+
+    // If no unique character is found, return null
+    return null;
+}
+
+// const str = "leetcode";
+// console.log(firstUniqueChar(str)); // Output: "l"
+
+
+// 46. Write a function to remove specific characters from a string.
+
+function removeChars(str, charsToRemove) {
+    // Create a set to store characters to remove for efficient lookup
+    const charsSet = new Set(charsToRemove);
+
+    // Filter out characters that are not in the set of characters to remove
+    const result = str.split('').filter(char => !charsSet.has(char)).join('');
+
+    return result;
+}
+
+// const str = "Hello World!";
+// const charsToRemove = "aeiou";
+// console.log(removeChars(str, charsToRemove)); // Output: "Hll Wrld!"
+
+
+// 47. Write a function to find the shortest palindrome in a string.
+
+function shortestPalindrome(str) {
+    // Function to check if a string is a palindrome
+    const isPalindrome = (s) => s === s.split('').reverse().join('');
+
+    // Iterate from the end of the string and find the shortest palindrome
+    for (let i = str.length; i >= 0; i--) {
+        const substring = str.substring(0, i);
+        if (isPalindrome(substring)) {
+            const remaining = str.substring(i);
+            return remaining.split('').reverse().join('') + str;
+        }
+    }
+
+    // If the entire string is already a palindrome, return the original string
+    return str;
+}
+
+// const str = "aacecaaa";
+// console.log(shortestPalindrome(str)); // Output: "aaacecaaa"
+
+
+// 48. Write a function to check if a string is a valid JSON string.
+
+
+function isValidJSON(str) {
+    try {
+        JSON.parse(str);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+// const jsonString = '{"name": "John", "age": 30}';
+// console.log(isValidJSON(jsonString)); // Output: true
+
+
+
+// 49. Write a function to find the longest substring with at most k distinct characters.
+
+function longestSubstringWithKDistinct(str, k) {
+    let maxLength = 0;
+    let start = 0;
+    let charMap = new Map();
+
+    for (let end = 0; end < str.length; end++) {
+        const rightChar = str[end];
+        charMap.set(rightChar, (charMap.get(rightChar) || 0) + 1);
+
+        while (charMap.size > k) {
+            const leftChar = str[start];
+            charMap.set(leftChar, charMap.get(leftChar) - 1);
+            if (charMap.get(leftChar) === 0) {
+                charMap.delete(leftChar);
+            }
+            start++;
+        }
+
+        maxLength = Math.max(maxLength, end - start + 1);
+    }
+
+    return maxLength;
+}
+
+// const str = "eceba";
+// const k = 2;
+// console.log(longestSubstringWithKDistinct(str, k)); // Output: 3 (longest substring is "ece")
+
+
+// 50. Write a function to find the longest common substring between two strings.
+
+
+function longestCommonSubstring(str1, str2) {
+    const m = str1.length;
+    const n = str2.length;
+    let maxLength = 0;
+    let endIndex = 0;
+
+    // Create a 2D array to store the length of common substrings
+    const dp = Array.from(Array(m + 1), () => Array(n + 1).fill(0));
+
+    for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+            if (str1[i - 1] === str2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+                if (dp[i][j] > maxLength) {
+                    maxLength = dp[i][j];
+                    endIndex = i - 1;
+                }
+            }
+        }
+    }
+
+    // Extract the longest common substring
+    const longestSubstring = str1.substring(endIndex - maxLength + 1, endIndex + 1);
+    return longestSubstring;
+}
+
+const str1 = "abcdef";
+const str2 = "abdf";
+console.log(longestCommonSubstring(str1, str2)); // Output: "abd"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
