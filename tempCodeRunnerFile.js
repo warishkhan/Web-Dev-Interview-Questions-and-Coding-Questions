@@ -1,8 +1,7 @@
-function countConsonants(str) {
-    const matches = str.match(/[bcdfghjklmnpqrstvwxyz]/gi);
-    return matches ? matches.length : 0;
-}
-
-// Example usage:
-const string = "Hello World";
-console.log("Number of consonants in the string:", countConsonants(string));
+ // for (let i = n - 1; i > 0; i--) {
+    //   if (i === 1) {
+    //     console.log(' '.repeat(n - i) + '*');
+    //   } else {
+    //     console.log(' '.repeat(n - i) + '*' + ' '.repeat(2 * i - 3) + '*');
+    //   }
+    // }

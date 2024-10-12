@@ -184,5 +184,86 @@ function printPyramidPattern(lines) {
   }
   
   // Example usage
-  printPyramidPattern(5);
+  // printPyramidPattern(5);
+
+
+  // 6. Inverted Pyramid Pattern
+
+  function invertedPyramidPattern(n) {
+    for (let i = n; i > 0; i--) {
+      console.log(' '.repeat(n - i) + '*'.repeat(2 * i - 1));
+    }
+  }
+  
+  // invertedPyramidPattern(5);
+
+
+  function manuallyInvertedPyramid(n){
+    let totalWidth = 2*n-1;
+    for (let i = n; i > 0; i--) {
+      let result = '';
+  
+      // Calculate the number of spaces and asterisks for the current line
+      const numAsterisks = 2 * i - 1;
+      const numSpaces = (totalWidth - numAsterisks) / 2;
+  
+      // Append spaces
+      for (let j = 0; j < numSpaces; j++) {
+        result += ' ';
+      }
+  
+      // Append asterisks
+      for (let j = 0; j < numAsterisks; j++) {
+        result += '*';
+      }
+  
+      // Append spaces (not necessary, but for completeness)
+      for (let j = 0; j < numSpaces; j++) {
+        result += ' ';
+      }
+  
+      // Print the current line
+      console.log(result);
+    }
+  }
+
+  // manuallyInvertedPyramid(5)
+
+  // 7. Diamond Pattern
+
+  function diamondPattern(n) {
+    for (let i = 1; i <= n; i++) {
+      console.log(' '.repeat(n - i) + '*'.repeat(2 * i - 1));
+    }
+    for (let i = n - 1; i > 0; i--) {
+      console.log(' '.repeat(n - i) + '*'.repeat(2 * i - 1));
+    }
+  }
+  
+  // diamondPattern(5);
+
+
+  // 8. Hollow Diamond Pattern
+
+  function hollowDiamondPattern(n) {
+    for (let i = 1; i <= n; i++) {
+      if (i === 1) {
+        console.log(' '.repeat(n - i) + '*');
+      } else {
+        console.log(' '.repeat(n - i) + '*' + ' '.repeat(2 * i - 3) + '*');
+      }
+    }
+    // for (let i = n - 1; i > 0; i--) {
+    //   if (i === 1) {
+    //     console.log(' '.repeat(n - i) + '*');
+    //   } else {
+    //     console.log(' '.repeat(n - i) + '*' + ' '.repeat(2 * i - 3) + '*');
+    //   }
+    // }
+  }
+  
+  hollowDiamondPattern(5);
+  
+  
+  
   
